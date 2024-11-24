@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Success</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 400px;
+    }
+    h2 {
+      color: #2d3e50;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    p {
+      color: #4b4f54;
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+    .uid-container {
+      background-color: #1f8e6d;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+    }
+    .button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Registration Successful!</h2>
+    <p>Your account has been successfully registered.</p>
+
+    <!-- Display UID -->
+    <div class="uid-container" id="uid-display">
+      Loading UID...
+    </div>
+
+    <div class="button-container">
+      <button class="button" onclick="goToDashboard()">Go to Dashboard</button>
+    </div>
+  </div>
+
+  <script>
+    // Get the UID from localStorage and display it
+    window.onload = function() {
+      const uid = localStorage.getItem('uid'); // Assuming UID was saved in localStorage as 'uid'
+      const uidDisplay = document.getElementById('uid-display');
+
+      if (uid) {
+        uidDisplay.textContent = `Your UID: ${uid}`;
+      } else {
+        uidDisplay.textContent = 'UID not found. Please ensure you have registered.';
+      }
+    };
+
+   function goToDashboard()
+   {
+     window.location.href="index.html";
+   }
+   
+  </script>
+
+</body>
+</html>

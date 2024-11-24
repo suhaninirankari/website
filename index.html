@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin & Franchisee Registration</title>
+  <style>   
+    .hidden { display: none; }
+
+    .form-container { margin-top: 60px; padding: 20px; border: 1px solid #aaa3a3; border-radius: 5px; width: 50%; margin: auto;
+    background-color:white; }
+    label { display: block; margin-top: 10px; }
+    input, select { padding: 5px; margin-top: 5px; width: 100%; box-sizing: border-box; }
+    button { margin-top: 20px; padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; width: 100%; }
+    button:hover { background-color: #45a049; }
+    #role { margin-bottom: 8rem; }
+    body{
+      background: linear-gradient(to right, #f12711, #f5af19);}
+     h2{
+         text-decoration-color: #444a44;
+         color:WHITE;
+     }
+  </style>
+</head>
+<body>
+  <div style="text-align:center">
+    <h2>TRUE COMPANION</h2>
+    
+    <!-- Role selection -->
+    <select id="role" onchange="updateForm()">
+      <option value="select">Select Role</option>
+      <option value="admin">Admin</option>
+      <option value="franchisee">Franchisee</option>
+    </select>
+  </div>
+
+  <!-- Form for Admin -->
+  <div id="admin-form" class="form-container hidden">
+    <h3>Admin Registration</h3>
+    <label for="admin-name">Name:</label>
+    <input type="text" id="admin-name" placeholder="Admin Name">
+    
+    <label for="admin-email">Email:</label>
+    <input type="email" id="admin-email" placeholder="Admin Email">
+    
+    <label for="admin-password">Password:</label>
+    <input type="password" id="admin-password" placeholder="Admin Password">
+    
+    <button type="button" onclick="submitAdminForm()">Register Admin</button>
+  </div>
+
+  <!-- Form for Franchisee -->
+  <div id="franchisee-form" class="form-container hidden">
+    <h3>Franchisee Registration</h3>
+    
+    <label for="franchisee-name">Franchise Name:</label>
+    <input type="text" id="franchisee-name" placeholder="Franchisee Name">
+    
+    <label for="franchisee-country">Country:</label>
+    <select id="franchisee-country">
+      <option value="">Select Country</option>
+      <option value="india">India</option>
+      <option value="other">Other</option>
+    </select>
+
+    <!-- Indian Specific Fields -->
+    <div id="india-fields" class="hidden">
+      <label for="state">State:</label>
+      <input type="text" id="state" placeholder="State">
+      
+      <label for="city-india">City:</label>
+      <input type="text" id="city-india" placeholder="City">
+      
+      <label for="aadhaar">Aadhaar Number:</label>
+      <input type="text" id="aadhaar" placeholder="Aadhaar Number">
+      
+      <label for="pan">PAN Number:</label>
+      <input type="text" id="pan" placeholder="PAN Number">
+      
+      <label for="address-india">Address (India):</label>
+      <input type="text" id="address-india" placeholder="Address in India">
+    </div>
+
+    <!-- Other Country Specific Fields -->
+    <div id="other-country-fields" class="hidden">
+      <label for="state-other">State:</label>
+      <input type="text" id="state-other" placeholder="State">
+      
+      <label for="city-other">City:</label>
+      <input type="text" id="city-other" placeholder="City">
+      
+      <label for="passport">Passport Number:</label>
+      <input type="text" id="passport" placeholder="Passport Number">
+      
+      <label for="address-other">Address (Other Country):</label>
+      <input type="text" id="address-other" placeholder="Address in Other Country">
+      
+      <label for="country-other">Country Name:</label>
+      <input type="text" id="country-other" placeholder="Enter your Country">
+    </div>
+
+    <button type="button" onclick="submitFranchiseeForm()">Register Franchisee</button>
+  </div>
+
+  <script>
+    // Function to update the form based on selected role
+    function updateForm() {
+      const selectedRole = document.getElementById('role').value;
+      
+      // Show the relevant form based on role selected
+      if (selectedRole === 'admin') {
+        document.getElementById('admin-form').classList.remove('hidden');
+        document.getElementById('franchisee-form').classList.add('hidden');
+      } else if (selectedRole === 'franchisee') {
+        document.getElementById('admin-form').classList.add('hidden');
+        document.getElementById('franchisee-form').classList.remove('hidden');
+      } else {
+        document.getElementById('admin-form').classList.add('hidden');
+        document.getElementById('franchisee-form').classList.add('hidden');
+      }
+    }
+
+    // Function to show or hide fields based on selected country for Franchisee
+    document.getElementById('franchisee-country').addEventListener('change', function () {
+      const country = this.value;
+
+      if (country === 'india') {
+        document.getElementById('india-fields').classList.remove('hidden');
+        document.getElementById('other-country-fields').classList.add('hidden');
+      } else if (country === 'other') {
+        document.getElementById('other-country-fields').classList.remove('hidden');
+        document.getElementById('india-fields').classList.add('hidden');
+      } else {
+        document.getElementById('india-fields').classList.add('hidden');
+        document.getElementById('other-country-fields').classList.add('hidden');
+      }
+    });
+
+    // Function to handle Admin form submission
+    function submitAdminForm() {
+      const adminName = document.getElementById('admin-name').value;
+      const adminEmail = document.getElementById('admin-email').value;
+      const adminPassword = document.getElementById('admin-password').value;
+
+      if (!adminName || !adminEmail || !adminPassword) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      alert("Admin Registered Successfully");
+      resetFields();
+    }
+
+    // Function to handle Franchisee form submission
+    function submitFranchiseeForm() {
+      const franchiseeName = document.getElementById('franchisee-name').value;
+      const franchiseeCountry = document.getElementById('franchisee-country').value;
+      const franchiseeState = document.getElementById(franchiseeCountry === 'india' ? 'state' : 'state-other').value;
+      const franchiseeCity = document.getElementById(franchiseeCountry === 'india' ? 'city-india' : 'city-other').value;
+      const franchiseeAadhaar = document.getElementById('aadhaar') ? document.getElementById('aadhaar').value : '';
+      const franchiseePan = document.getElementById('pan') ? document.getElementById('pan').value : '';
+      const franchiseePassport = document.getElementById('passport') ? document.getElementById('passport').value : '';
+
+      // Generating UID
+      let uid = generateUID(franchiseeName, franchiseeState, franchiseeCity, franchiseeAadhaar, franchiseePan, franchiseePassport, franchiseeCountry);
+      console.log("Generated UID:", uid);
+      
+      // Storing the UID in localStorage
+      localStorage.setItem("uid", uid);
+
+      alert("Franchisee Registered Successfully with UID: " + uid);
+      window.location.href = 'successful.html'; // Navigating to the successful page
+      resetFields();
+    }
+
+    // Function to generate the UID
+    function generateUID(name, state, city, aadhaar, pan, passport, country) {
+      const nameInitials = name.substring(0, 2).toUpperCase();
+      const stateCode = state.substring(0, 2).toUpperCase();
+      const cityCode = city.substring(0, 2).toUpperCase();
+      const otherC = document.getElementById("country-other").value;
+      let uniqueID = 'TC';
+
+      if (country === 'india') {
+        uniqueID += 'IN' + stateCode + cityCode + aadhaar.slice(-4);
+      } else if (country === 'other') {
+        uniqueID += otherC.substring(0, 2).toUpperCase() + stateCode + cityCode + passport.slice(-4);
+      }
+
+      console.log(uniqueID); // Debugging: Check the generated UID in the console
+      return uniqueID;
+    }
+
+    // Function to reset all fields after submission
+    function resetFields() {
+      document.getElementById('franchisee-name').value = '';
+      document.getElementById('franchisee-country').value = '';
+      document.getElementById('state').value = '';
+      document.getElementById('city-india').value = '';
+      document.getElementById('aadhaar').value = '';
+      document.getElementById('pan').value = '';
+      document.getElementById('passport').value = '';
+      document.getElementById('address-india').value = '';
+      document.getElementById('address-other').value = '';
+      document.getElementById('country-other').value = '';
+    
+      document.getElementById('admin-name').value = '';
+      document.getElementById('admin-email').value = '';
+      document.getElementById('admin-password').value = '';
+    }
+  </script>
+</body>
+</html>
